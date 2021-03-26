@@ -1,5 +1,4 @@
 #include <stdint.h>
-#include "vl53l0xExample.h"
 #include "debugPrint.h"
 
 #if DEBUGPRINT_ENABLED
