@@ -1,5 +1,5 @@
-Debug/*
-!Debug/Makefile
+rangefinder_test/Debug/*
+!rangefinder_test/Debug/Makefile
 
 # Prerequisites
 *.d
