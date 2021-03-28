@@ -11,6 +11,11 @@
 #include "debugPrint.h"
 #include "i2cmaster.h"
 
+#define DEBUG_START false
+#define DEBUG_STOP false
+#define DEBUG_WRITE false
+#define DEBUG_READ false
+
 #define F_CPU 8000000UL
 
 /*************************************************************************
@@ -33,7 +38,7 @@ unsigned char i2c_start(unsigned char address){
     uint16_t timeout=0xFFFF;
 
 	// send START condition
-	debug_str("s: transmitting start condition\n");
+	if(DEBUG_START) debug_str("s: transmitting start condition\n");
 	TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
 
 	// wait until  START condition has been transmitted
@@ -59,15 +64,17 @@ unsigned char i2c_start(unsigned char address){
 
 	// send device address
 	TWDR = address;
-	debug_str("s: sending device adress ");
-	debug_hex(TWDR, 2);
-	debug_str("\n");
+	if(DEBUG_START) {
+		debug_str("s: sending device adress ");
+		debug_hex(TWDR, 2);
+		debug_str("\n");
+	}
 	TWCR = (1<<TWINT) | (1<<TWEN);
 
 	// wail until transmission completed and ACK/NACK has been received
     while( --timeout > 0 ){
         if( TWCR & (1<<TWINT) ){
-			debug_str("s: ack/Nack recieved\n");
+			if(DEBUG_START) debug_str("s: ack/Nack recieved\n");
             break;
         }
     }
@@ -161,7 +168,7 @@ unsigned char i2c_rep_start(unsigned char address){
 void i2c_stop(void){
     uint16_t timeout=0xFFFF;
     //send stop
-	debug_str("stop: sendong stop condition\n");
+	if(DEBUG_STOP) debug_str("stop: sending stop condition\n");
 	TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO);
 	// wait until stop condition is executed and bus released
     while( --timeout > 0 ){
@@ -185,13 +192,14 @@ unsigned char i2c_write( unsigned char data ){
     uint16_t timeout=0xFFFF;
 	// send data to the previously addressed device
 	TWDR = data;
-	debug_str("w: writing ");
-	debug_hex(TWDR, 2);
-	debug_str("\n");
+	if(DEBUG_WRITE) { 
+		debug_str("w: writing data: ");
+		debug_hex(TWDR, 2);
+		debug_str("\n");
+	}
 	TWCR = (1<<TWINT) | (1<<TWEN);
 
 	// wait until transmission completed
-    // wait until  START condition has been transmitted
     while( --timeout > 0 ){
         if( TWCR & (1<<TWINT) ){
             break;
