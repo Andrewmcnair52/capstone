@@ -67,7 +67,7 @@ int main() {
 		
 		//test3
 		debug_str("\nstarting temperature test\n");
-		if( i2c_start( ADT7420_ADDRESS | I2C_WRITE ) == 0 ) {
+		if( i2c_start( 0b10010010 | I2C_WRITE ) == 0 ) {
 			i2c_write( ADT7420_REG_ID );
 			i2c_rep_start( ADT7420_ADDRESS | I2C_READ );
 			uint8_t test = i2c_readNak();
