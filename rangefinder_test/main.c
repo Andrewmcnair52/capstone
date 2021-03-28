@@ -45,21 +45,21 @@ int main() {
 	
 	init();
 
-	//initVL53L0X(1);
-	//setMeasurementTimingBudget( 500 * 1000UL );	//500 ms per measurement
+	initVL53L0X(1);
+	setMeasurementTimingBudget( 500 * 1000UL );	//500 ms per measurement
 	
 	// Main loop	
 	while(1){
 		
 		debug_in();	//wait for character input before every iteration
 		
-		/*
+		
 		//range finder test
 		debug_str("range data:");
 		debug_dec( read_rangefinder() );
 		debug_str("\n");
-		*/
 		
+		/*
 		//test: search for I2C addresses on bus
 		searchI2C();
 		
@@ -75,6 +75,7 @@ int main() {
 			debug_str("incorrect ID received\n");
 			else debug_str("correct ID received");
 		}
+		*/
 		
 		//process navigation data if available, and if moving
 		if(is_moving) {
