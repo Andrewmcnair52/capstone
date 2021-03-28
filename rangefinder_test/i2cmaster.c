@@ -11,6 +11,9 @@
 #include "debugPrint.h"
 #include "i2cmaster.h"
 
+#define true 1
+#define false 0
+
 #define DEBUG_START false
 #define DEBUG_STOP false
 #define DEBUG_WRITE false
