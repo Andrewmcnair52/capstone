@@ -67,7 +67,7 @@ int main() {
 		
 		//test3
 		debug_str("\nstarting temperature test\n");
-		if( i2c_start( ADT7420_ADDRESS | I2C_WRITE ) == 0 ) {
+		i2c_start_wait( ADT7420_ADDRESS | I2C_WRITE );
 			i2c_write( ADT7420_REG_ID );
 			i2c_rep_start( ADT7420_ADDRESS | I2C_READ );
 			uint8_t test = i2c_readNak();
@@ -76,7 +76,7 @@ int main() {
 			if(test != ADT7420_DEFAULT_ID)
 			debug_str("incorrect ID received\n");
 			else debug_str("correct ID received");
-		}
+		
 		
 		
 		//process navigation data if available, and if moving
