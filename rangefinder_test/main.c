@@ -55,6 +55,9 @@ int main() {
 		
 		debug_in();	//wait for character input before every iteration
 		
+		//test: search for I2C addresses on bus
+		searchI2C();
+		
 		
 		//range finder test
 		debug_str("range data:");
@@ -62,9 +65,6 @@ int main() {
 		debug_str("\n");
 		
 		/*
-		//test: search for I2C addresses on bus
-		searchI2C();
-		
 		//test3
 		debug_str("\nstarting temperature test\n");
 		if( i2c_start( ADT7420_ADDRESS | I2C_WRITE ) == 0 ) {
