@@ -48,9 +48,6 @@ int main() {
 	//initVL53L0X(1);
 	//setMeasurementTimingBudget( 500 * 1000UL );	//500 ms per measurement
 	
-	//test: search for I2C addresses on bus
-	searchI2C();
-	
 	// Main loop	
 	while(1){
 		
@@ -62,6 +59,9 @@ int main() {
 		debug_dec( read_rangefinder() );
 		debug_str("\n");
 		*/
+		
+		//test: search for I2C addresses on bus
+		searchI2C();
 		
 		//test3
 		debug_str("\nstarting temperature test\n");
