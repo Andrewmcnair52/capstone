@@ -14,9 +14,9 @@
 #define true 1
 #define false 0
 
-#define DEBUG_START false
+#define DEBUG_START true
 #define DEBUG_STOP false
-#define DEBUG_WRITE false
+#define DEBUG_WRITE true
 #define DEBUG_READ false
 
 #define F_CPU 8000000UL
@@ -82,7 +82,7 @@ unsigned char i2c_start(unsigned char address){
         }
     }
     if( timeout == 0 ){
-        debug_str("s: response timed out");
+        debug_str("s: response timed out\n");
         return 1;
     }
 	// check value of TWI Status Register. Mask prescaler bits.
