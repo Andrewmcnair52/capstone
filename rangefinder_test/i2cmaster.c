@@ -88,9 +88,11 @@ unsigned char i2c_start(unsigned char address){
 	// check value of TWI Status Register. Mask prescaler bits.
 	twst = TW_STATUS & 0xF8;
 	if ( (twst != TW_MT_SLA_ACK) && (twst != TW_MR_SLA_ACK) ){
-        debug_str("s: com error, status ");
-		debug_hex(twst, 2);
-		debug_str("\n");
+        if(DEBUG_START){ 
+			debug_str("s: com error, status ");
+			debug_hex(twst, 2);
+			debug_str("\n");
+		}
 		return 1;
 	}
 	return 0;
