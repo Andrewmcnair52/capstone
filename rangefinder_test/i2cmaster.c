@@ -269,7 +269,7 @@ void searchI2C(){
 	debug_str("\nDiscovered I2C addresses: ");
 	for( devAdr=0; devAdr<=127; devAdr++ ){
 		if( !i2c_start( (devAdr<<1) | I2C_WRITE ) ){
-			debug_hex(devAdr, 2);
+			debug_hex(devAdr, 3);
             debug_putc(' ');
 		}
 		i2c_stop();                             // set stop condition = release bus
