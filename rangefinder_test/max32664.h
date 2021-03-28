@@ -313,6 +313,6 @@ uint8_t max32664_begin(uint16_t, uint16_t);
 
 uint8_t max32664_configBpm(uint8_t mode);
 
-uint8_t max32664_begin(uint16_t, uint16_t)
+uint8_t max32664_readBpm()
 
 

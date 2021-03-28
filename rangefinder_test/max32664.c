@@ -244,7 +244,7 @@ uint8_t readByte(uint8_t _familyByte, uint8_t _indexByte )
     if( statusByte ){// SUCCESS (0x00)
         return statusByte;} // Return the error, see: READ_STATUS_BYTE_VALUE
 
-       returnByte = = i2c_readNak();
+       returnByte = i2c_readNak();
        return returnByte; // If good then return the actual byte.
 
 }
@@ -268,7 +268,7 @@ uint8_t  readByte_alter(uint8_t _familyByte, uint8_t _indexByte,\
     if( statusByte ){// SUCCESS (0x00)
         return statusByte;} // Return the error, see: READ_STATUS_BYTE_VALUE
 
-  returnByte = = i2c_readNak();
+  returnByte = i2c_readNak();
   return returnByte; // If good then return the actual byte.
 
 }
