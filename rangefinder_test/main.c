@@ -48,8 +48,8 @@ int main() {
 	//initVL53L0X(1);
 	//setMeasurementTimingBudget( 500 * 1000UL );	//500 ms per measurement
 	
-	//test: search for I2C addresses on bis
-	//searchI2C();
+	//test: search for I2C addresses on bus
+	searchI2C();
 	
 	// Main loop	
 	while(1){

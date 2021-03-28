@@ -253,7 +253,7 @@ unsigned char i2c_readNak(void){
 // Print out all the active I2C addresses on the bus
 void searchI2C(){
 	uint8_t devAdr;
-	debug_str("Discovered I2C addresses: ");
+	debug_str("\nDiscovered I2C addresses: ");
 	for( devAdr=0; devAdr<=127; devAdr++ ){
 		if( !i2c_start( (devAdr<<1) | I2C_WRITE ) ){
 			debug_hex(devAdr, 2);
