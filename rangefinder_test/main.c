@@ -29,6 +29,8 @@ void init(void) {
 	debugInit();		//setup bluetooth usart
 	
 	//I2C setup
+	DDRD &= ~(1 << PC5);
+	DDRD &= ~(1 << PC4);
 	PORTC |= (1<<PC5) | (1<<PC4); // Enable pull ups on I2C lines
 	i2c_init();
 	
