@@ -2,14 +2,14 @@
 #include "nav.h"
 
 //ISR shared variables
-volatile bool nav_data_ready;
+extern volatile bool nav_data_ready;
 extern volatile bool is_moving;
 
 uint8_t adc[3] = { 0b01100001, 0b01100010, 0b01100011 };	//select which ADC, ADMUX = { adc[0] -> ADC3 || adc[1] -> ADC5 || adc[2] -> ADC7 }
 uint8_t nav_data[4];
 
-uint8_t initial_PD6_PWM = 0b10000000;
-uint8_t initial_PD3_PWM = 0b10000000;
+uint8_t initial_PD6_PWM = 0b00000000;
+uint8_t initial_PD3_PWM = 0b00000000;
 
 void start_move() {
 	
@@ -22,6 +22,34 @@ void start_move() {
 void stop_move() {
 	is_moving = false;
 }
+
+//=========================================================== PWM control
+
+void increment_OCR0A(uint8_t inc) {
+	uint8_t current_val = OCR0A;
+	if( (current_val+inc) > 255) OCR0A = 255;
+	else OCR0A = current_val + inc;
+}
+
+void decrement_OCR0A(uint8_t inc) {
+	uint8_t current_val = OCR0A;
+	if( (current_val-inc) < 0) OCR0A = 0;
+	else OCR0A = current_val - inc;
+}
+
+void increment_OCR2B(uint8_t inc) {
+	uint8_t current_val = OCR2B;
+	if( (current_val+inc) > 255) OCR2B = 255;
+	else OCR2B = current_val + inc;
+}
+
+void decrement_OCR2B(uint8_t inc) {
+	uint8_t current_val = OCR2B;
+	if( (current_val-inc) < 0) OCR2B = 0;
+	else OCR2B = current_val - inc;
+}
+
+//=========================================================== reflectance sensor ISR
 
 ISR(ADC_vect) {
 
@@ -50,6 +78,8 @@ ISR(ADC_vect) {
 	}
 	
 }
+
+//=========================================================== NAV algorithm
 
 void nav_rules() {
 	
@@ -87,6 +117,30 @@ void nav_rules() {
 	
 }
 
+
+//===========================================================  obstacle avoidance
+
+uint8_t read_rangefinder() {
+	
+	statInfo_t xTraStats;
+	
+	readRangeSingleMillimeters( &xTraStats );	// blocks until measurement is finished
+	/* Returns:
+	xTraStats.rangeStatus
+	xTraStats.ambientCnt
+	xTraStats.signalCnt
+	xTraStats.spadCnt
+	xTraStats.rawDistance
+	*/
+	if ( timeoutOccurred() ) {
+		debug_str(" !!! Timeout !!! \n");
+	}
+	
+	return xTraStats.rawDistance;
+	
+}
+
+//=========================================================== setup functions
 
 void setupADC() {
 	
@@ -152,26 +206,6 @@ void setupADC() {
 	ADTS0 = 0
 	*/
 	ADCSRB = 0b00000000;
-	
-}
-
-uint8_t read_rangefinder() {
-	
-	statInfo_t xTraStats;
-	
-	readRangeSingleMillimeters( &xTraStats );	// blocks until measurement is finished
-	/* Returns:
-	xTraStats.rangeStatus
-	xTraStats.ambientCnt
-	xTraStats.signalCnt
-	xTraStats.spadCnt
-	xTraStats.rawDistance
-	*/
-	if ( timeoutOccurred() ) {
-		debug_str(" !!! Timeout !!! \n");
-	}
-	
-	return xTraStats.rawDistance;
 	
 }
 

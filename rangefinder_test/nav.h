@@ -18,6 +18,11 @@
 extern uint8_t adc[3];
 extern uint8_t nav_data[4];
 
+void increment_OCR0A(uint8_t);
+void decrement_OCR0A(uint8_t);
+void increment_OCR2B(uint8_t);
+void decrement_OCR2B(uint8_t);
+
 void timerSetup();			//setup timers 0 and 2 for pwm output
 void setupADC();			//setup ADC for reflectance sensors
 void start_move();			//start line follower
