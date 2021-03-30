@@ -14,9 +14,9 @@
 #define true 1
 #define false 0
 
-#define DEBUG_START true
+#define DEBUG_START false
 #define DEBUG_STOP false
-#define DEBUG_WRITE true
+#define DEBUG_WRITE false
 #define DEBUG_READ false
 
 #define F_CPU 8000000UL
