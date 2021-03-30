@@ -25,9 +25,14 @@ void init(void) {
 	//setup for motor drivers
 	timerSetup();		//starts PWM on PD6(timer0) and PD3(timer2)
 	DDRC |= (1<<PC0);	//setup PC0 for output
-	PORTC |= (1<<PC0);	//set PC0 high
+	PORTC &= ~(1<<PC0);	//set PC0 low
 	DDRD |= (1<<PD2);	//set PD2 for output
 	PORTD |= (1<<PD2);	//set PD2 high
+	
+	DDRB |= (1<<PB2);	//setup PB2 for output
+	PORTB &= ~(1<<PB2);	//set PB2 low
+	DDRD |= (1<<PD4);	//set PD4 for output
+	PORTD &= ~(1<<PD4);	//set PD4 high
 	
 	debugInit();		//setup bluetooth usart
 	
