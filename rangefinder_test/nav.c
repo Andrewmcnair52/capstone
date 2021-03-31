@@ -8,8 +8,8 @@ extern volatile bool is_moving;
 uint8_t adc[3] = { 0b01100001, 0b01100010, 0b01100011 };	//select which ADC, ADMUX = { adc[0] -> ADC3 || adc[1] -> ADC5 || adc[2] -> ADC7 }
 uint8_t nav_data[4];
 
-uint8_t initial_PD6_PWM = 0b00000000;
-uint8_t initial_PD3_PWM = 0b00000000;
+uint8_t initial_PD6_PWM = 0b10000000;
+uint8_t initial_PD3_PWM = 0b10000000;
 
 void start_move() {
 	
