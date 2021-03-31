@@ -11,10 +11,10 @@ void initMillis() {
 	//--------------------------------------------------
 	// Timer0 for for the `millis()` function
 	//--------------------------------------------------
-	TCCR0A = (1<<WGM01);			//Clear TImer on Compar Match Mode (2), no pin output
-	TCCR0B = (1<<CS02) | (0<<CS01) | (1<<CS00);//TOP=OCR0A, 1024 prescaler
-	OCR0A = T0_RELOAD;				//244: Overflow every 15.68 ms
-	TIMSK0 = (1<<OCIE0A);
+	TCCR1A = (1<<WGM01);			//Clear TImer on Compar Match Mode (2), no pin output
+	TCCR1B = (1<<CS02) | (0<<CS01) | (1<<CS00);//TOP=OCR0A, 1024 prescaler
+	OCR1A = T0_RELOAD;				//244: Overflow every 15.68 ms
+	TIMSK1 = (1<<OCIE0A);
 }
 
 // Return ellapsed time since startup in [ms]
