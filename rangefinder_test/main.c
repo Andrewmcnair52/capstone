@@ -10,8 +10,6 @@
 #include "nav.h"
 #include "adt7420.h"
 
-void timerSetup();
-
 //global vars for main
 bool rangefinder_initialized = false;
 
