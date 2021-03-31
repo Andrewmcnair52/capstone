@@ -144,8 +144,10 @@ int main() {
 							increment_OCR2B(20);
 							break;
 						case 'f':
-							increment_OCR0A(20);
-							increment_OCR2B(20);
+							//increment_OCR0A(20);
+							//increment_OCR2B(20);
+							OCR0A = 0b10000000;
+							OCR2B = 0b10000000;
 							break;
 						case 's':
 							decrement_OCR0A(20);
