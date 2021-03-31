@@ -30,7 +30,7 @@ void init(void) {
 	DDRB |= (1<<PB2);	//setup PB2 for output
 	PORTB &= ~(1<<PB2);	//set PB2 low
 	DDRD |= (1<<PD4);	//set PD4 for output
-	PORTD &= ~(1<<PD4);	//set PD4 high
+	PORTD |= (1<<PD4);	//set PD4 high
 	
 	debugInit();		//setup bluetooth usart
 	
