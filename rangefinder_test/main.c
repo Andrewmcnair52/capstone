@@ -52,6 +52,7 @@ int main() {
 	//searchI2C();
 	
 	// Main loop
+    debug_in();
     
     SparkFun_Bio_Sensor_Hub_begin(<RESET_PIN>,<FIO_PIN>);
     uint_8 error = SparkFun_Bio_Sensor_Hub_configBpm(MODE_ONE);
