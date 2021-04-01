@@ -1,4 +1,3 @@
-
 #include "nav.h"
 
 //ISR shared variables
@@ -8,17 +7,13 @@ extern volatile bool is_moving;
 uint8_t adc[3] = { 0b01100001, 0b01100010, 0b01100011 };	//select which ADC, ADMUX = { adc[0] -> ADC3 || adc[1] -> ADC5 || adc[2] -> ADC7 }
 uint8_t nav_data[4];
 
-uint8_t initial_PD6_PWM = 0b00000000;
-uint8_t initial_PD3_PWM = 0b00000000;
-
 void start_move() {
-	
+
 	ADMUX = adc[0];				//start at ADC3
 	is_moving = true;
 	ADCSRA |= (1 << ADSC);		//start ADC
 	
 }
-
 void stop_move() {
 	is_moving = false;
 }
@@ -49,6 +44,58 @@ void decrement_OCR2B(uint8_t inc) {
 	else OCR2B = current_val - inc;
 }
 
+void forward() {	//forward motion set both forward
+	//left forward
+	DDRB |= (1<<PB2);	//setup PB2 for output
+	PORTB &= ~(1<<PB2);	//set PB2 low
+	DDRD |= (1<<PD4);	//set PD4 for output
+	PORTD |= (1<<PD4);	//set PD4 high
+	//right forward
+	DDRC |= (1<<PC0);	//setup PC0 for output
+	PORTC &= ~(1<<PC0);	//set PC0 high
+	DDRD |= (1<<PD2);	//set PD2 for output
+	PORTD |= (1<<PD2);	//set PD2 high
+}
+
+void reverse() {	//backwards, both reverse
+	//left reverse
+	DDRB |= (1<<PB2);	//setup PB2 for output
+	PORTB |= (1<<PB2);	//set PB2 low
+	DDRD |= (1<<PD4);	//set PD4 for output
+	PORTD &= ~(1<<PD4);	//set PD4 high
+	//right reverse
+	DDRC |= (1<<PC0);	//setup PC0 for output
+	PORTC |= (1<<PC0);	//set PC0 high
+	DDRD |= (1<<PD2);	//set PD2 for output
+	PORTD &= ~(1<<PD2);	//set PD2 high
+}
+
+void left() {	//turn left, left side reverse
+	//left reverse
+	DDRB |= (1<<PB2);	//setup PB2 for output
+	PORTB |= (1<<PB2);	//set PB2 low
+	DDRD |= (1<<PD4);	//set PD4 for output
+	PORTD &= ~(1<<PD4);	//set PD4 high
+	//right forward
+	DDRC |= (1<<PC0);	//setup PC0 for output
+	PORTC &= ~(1<<PC0);	//set PC0 high
+	DDRD |= (1<<PD2);	//set PD2 for output
+	PORTD |= (1<<PD2);	//set PD2 high
+}
+
+void right() {	//turn right, right side reverse
+	//left forward
+	DDRB |= (1<<PB2);	//setup PB2 for output
+	PORTB &= ~(1<<PB2);	//set PB2 low
+	DDRD |= (1<<PD4);	//set PD4 for output
+	PORTD |= (1<<PD4);	//set PD4 high
+	//right reverse
+	DDRC |= (1<<PC0);	//setup PC0 for output
+	PORTC |= (1<<PC0);	//set PC0 high
+	DDRD |= (1<<PD2);	//set PD2 for output
+	PORTD &= ~(1<<PD2);	//set PD2 high
+}
+
 //=========================================================== reflectance sensor ISR
 
 ISR(ADC_vect) {
@@ -76,13 +123,13 @@ ISR(ADC_vect) {
 		nav_data_ready = true;		//set flag for main
 		
 	}
-	
+
 }
 
 //=========================================================== NAV algorithm
 
 void nav_rules() {
-	
+
 	//assuming ADC3=left, ADC5=middle, ADC7=right
 	//this will be a basic algorithm, to be modified or replaced entirely once we can test it
 	
@@ -121,9 +168,9 @@ void nav_rules() {
 //===========================================================  obstacle avoidance
 
 uint8_t read_rangefinder() {
-	
+
 	statInfo_t xTraStats;
-	
+
 	readRangeSingleMillimeters( &xTraStats );	// blocks until measurement is finished
 	/* Returns:
 	xTraStats.rangeStatus
@@ -135,15 +182,15 @@ uint8_t read_rangefinder() {
 	if ( timeoutOccurred() ) {
 		debug_str(" !!! Timeout !!! \n");
 	}
-	
+
 	return xTraStats.rawDistance;
-	
+
 }
 
 //=========================================================== setup functions
 
 void setupADC() {
-	
+
 	//J6: data ->	PC3 -> ADC3 -> 0011
 	//J8: data ->	PC2 -> ADC2 -> 0010
 	//J12: data ->	PC1	-> ADC1 -> 0001
@@ -206,18 +253,27 @@ void setupADC() {
 	ADTS0 = 0
 	*/
 	ADCSRB = 0b00000000;
-	
+
 }
 
 void timerSetup() {
+
+	//everything forward
 	
-	debug_str("timer setup");
+	DDRC |= (1<<PC0);	//setup PC0 for output
+	PORTC &= ~(1<<PC0);	//set PC0 high
+	DDRD |= (1<<PD2);	//set PD2 for output
+	PORTD |= (1<<PD2);	//set PD2 high
+	
+	DDRB |= (1<<PB2);	//setup PB2 for output
+	PORTB &= ~(1<<PB2);	//set PB2 low
+	DDRD |= (1<<PD4);	//set PD4 for output
+	PORTD |= (1<<PD4);	//set PD4 high
 	
 	//U1: motor driver L6203
 	//-ln1 -> PA3
 	//-En  -> PD6 (PWM timer counter 0, 8b)
 	//-ln2 -> PA2 
-
 	//U2: motor driver
 	//-ln1 -> PA4
 	//-En  -> PD3   (PWM timer counter 2, OC2B, 8b)
@@ -289,7 +345,7 @@ void timerSetup() {
 	TCCR0B = 0b00000001;
 	TCCR2B = 0b00000001;	//same as timer/counter 0
 	
-	OCR0A = initial_PD6_PWM;			// PWM PD6/OC0A 50% duty cycle
-	OCR2B = initial_PD3_PWM;			// PWM PD3/OC2B 50% duty cycle
+	OCR0A = 0b00000000;			// PWM PD6/OC0A 50% duty cycle
+	OCR2B = 0b00000000;			// PWM PD3/OC2B 50% duty cycle
 	
 }
