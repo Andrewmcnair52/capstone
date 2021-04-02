@@ -12,7 +12,7 @@
 #include "VL53L0X.h"
 #include "debugPrint.h"
 extern uint8_t adc[3];
-extern uint8_t nav_data[4];
+extern uint16_t nav_data[3];
 
 void increment_OCR0A(uint8_t);
 void decrement_OCR0A(uint8_t);

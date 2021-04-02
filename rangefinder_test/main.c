@@ -117,11 +117,11 @@ int main() {
 			while(1) {
 				if(nav_data_ready) {
 					debug_str("\nADCH: ");
-					debug_hex(nav_data[0],2);
+					debug_hex(nav_data[0],4);
 					debug_str(" ");
-					debug_hex(nav_data[1],2);
+					debug_hex(nav_data[1],4);
 					debug_str(" ");
-					debug_hex(nav_data[2],2);
+					debug_hex(nav_data[2],4);
 					debug_str("\n");
 					//nav_rules();				//apply rules
 					nav_data_ready = false;		//reset flag

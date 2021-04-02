@@ -5,7 +5,8 @@ extern volatile bool nav_data_ready;
 extern volatile bool is_moving;
 
 uint8_t adc[3] = { 0b01100001, 0b01100010, 0b01100011 };	//select which ADC, ADMUX = { adc[0] -> ADC3 || adc[1] -> ADC5 || adc[2] -> ADC7 }
-uint8_t nav_data[4];
+uint16_t nav_data[3];
+uint8_t temporary = 0;
 
 void start_move() {
 
@@ -99,6 +100,8 @@ void right() {	//turn right, right side reverse
 //=========================================================== reflectance sensor ISR
 
 ISR(ADC_vect) {
+	
+	//for 10b ADC clear ADLAR in ADMUX to right adjust values
 
 	if(!is_moving) {	//check stop condition
 		
@@ -106,21 +109,49 @@ ISR(ADC_vect) {
 		
 	} else if(ADMUX==adc[0]) {		//if first sensor converted
 		
+		//8b ADC
 		nav_data[0] = ADCH;			//copy data
 		ADMUX = adc[1];				//change adc channel to second sensor
 		ADCSRA |= (1 << ADSC);		//start next adc
 		
+		/*	10b ADC
+		temporary = ADCL;			//save low byte, ADCL must be read first, this locks ADC output registers
+		nav_data[0] = (ADCH<<8);	//insert ADCH into MSB, reading ADCH unlocks ADC output registers
+		nav_data[0] |= temporary;	// (HHHHHHHH00000000 | LLLLLLLL ) = HHHHHHHHLLLLLLLL  
+		ADMUX = adc[1];				//change adc channel to second sensor
+		ADCSRA |= (1 << ADSC);		//start next adc
+		*/
+		
+		
 	} else if(ADMUX==adc[1]) {		//if second sensor converted
 		
+		//8b ADC
 		nav_data[1] = ADCH;			//copy data
 		ADMUX = adc[2];				//change adc channel to third sensor
 		ADCSRA |= (1 << ADSC);		//start next adc
 		
+		/*	10b ADC
+		temporary = ADCL;			//save low byte, ADCL must be read first, this locks ADC output registers
+		nav_data[1] = (ADCH<<8);	//insert ADCH into MSB, reading ADCH unlocks ADC output registers
+		nav_data[1] |= temporary;	// (HHHHHHHH00000000 | LLLLLLLL ) = HHHHHHHHLLLLLLLL  
+		ADMUX = adc[2];				//change adc channel to third sensor
+		ADCSRA |= (1 << ADSC);		//start next adc
+		*/
+		
 	} else if(ADMUX==adc[2]) {		//if third sensor converted
 		
+		//8b ADC
 		nav_data[2] = ADCH;			//store data
 		ADMUX = adc[0];				//change adc channel to first sensor
 		nav_data_ready = true;		//set flag for main
+		
+		/*	10b ADC
+		temporary = ADCL;			//save low byte, ADCL must be read first, this locks ADC output registers
+		nav_data[2] = (ADCH<<8);	//insert ADCH into MSB, reading ADCH unlocks ADC output registers
+		nav_data[2] |= temporary;	// (HHHHHHHH00000000 | LLLLLLLL ) = HHHHHHHHLLLLLLLL  
+		ADMUX = adc[0];				//change adc channel to first sensor
+		nav_data_ready = true;		//set flag for main
+		*/
 		
 	}
 
@@ -232,7 +263,7 @@ void setupADC() {
 	ADEN = 1     enable ADC
 	ADSC = 0     don't start ADC yet
 	ADATE = 0    don't enable ADC auto trigger (i.e. use single conversion mode)
-	ADIF = 0     don't set ADC interrupt flag
+	ADIF = 0     set ADC interrupt flag
 	ADIE = 1     enable ADC interrupt
 	
 	ADPS2 = 0
