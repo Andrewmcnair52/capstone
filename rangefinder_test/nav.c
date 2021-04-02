@@ -235,6 +235,12 @@ void setupADC() {
 	/*
 	ADMUX - ADC Multiplexer Selection Register
 	
+	REFS1 REFS0		reference voltage selection
+	  0     0		use external AREF, Internal Vref turned off
+	  0     1		use AVCC with external capacitor at AREF pin
+	  1     0		reserved
+	  1     1		use Internal 1.1V Voltage Reference with external capacitor at AREF pin
+	
 	bit          7           6          5         4        3         2          1          0
 	name       REFS1       REFS0      ADLAR       -       MUX3      MUX2       MUX1       MUX0
 	set to       0           1          1         0        0         0          1          1
