@@ -187,6 +187,11 @@ uint8_t read_rangefinder() {
 
 }
 
+uint8_t raw_to_cm(uint8_t raw) {
+	uint8_t val = (raw/10.225) + 24.4;
+	return val;
+}
+
 //=========================================================== setup functions
 
 void setupADC() {

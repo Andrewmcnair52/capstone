@@ -23,6 +23,8 @@ void forward();
 void left();
 void right();
 
+uint8_t raw_to_cm(uint8_t);
+
 void timerSetup();			//setup timers 0 and 2 for pwm output
 void setupADC();			//setup ADC for reflectance sensors
 void start_move();			//start line follower

@@ -12,6 +12,8 @@ void timerSetup();
 
 //global vars for main
 bool rangefinder_initialized = false;
+int counter = 0;
+uint8_t distance = 0;
 
 //ISR shared variables
 volatile bool nav_data_ready = false;
@@ -57,6 +59,30 @@ int main() {
 
 		//temporary test switch case, controls robot one iteration at a time
 		switch(debug_in()) {
+			
+			case 'p':	//test loop
+			if(!rangefinder_initialized) {		//initialize rangefinder if not already done
+				initVL53L0X(1);
+				setMeasurementTimingBudget( 500 * 1000UL );	//500 ms per measurement
+				rangefinder_initialized = true;
+			}
+			forward();
+			counter = 0;
+			OCR0A = 0x80;
+			OCR2B = 0x80;
+			distance = raw_to_cm( read_rangefinder() );
+			while( distance > 30 ) {
+				distance = raw_to_cm( read_rangefinder() );
+				debug_dec(counter);
+				debug_str(": distance = ");
+				debug_dec(distance);
+				debug_str("\n");
+				counter++;
+			}
+			OCR0A = 0x00;
+			OCR2B = 0x00;
+			
+			break;
 
 			case 'r':							//range finder test
 			if(!rangefinder_initialized) {		//initialize rangefinder if not already done
