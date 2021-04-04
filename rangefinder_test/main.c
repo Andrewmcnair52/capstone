@@ -117,16 +117,22 @@ int main() {
 			while(1) {
 				if(nav_data_ready) {
 					debug_str("\ndata:: ");
-					debug_hex(nav_data[0],4);
+					debug_dec(nav_data[0]);
 					debug_str(" ");
-					debug_hex(nav_data[1],4);
+					debug_dec(nav_data[1]);
 					debug_str(" ");
-					debug_hex(nav_data[2],4);
+					debug_dec(nav_data[2]);
+					debug_str("\n");
+					debug_str("OCR0A: ");
+					debug_dec(OCR0A);
 					debug_str("\n");
 					//nav_rules();				//apply rules
 					nav_data_ready = false;		//reset flag
-					debug_str("\nenter c to read again, or e to end: ");
+					debug_str("\nenter c to read again, i to increase pwm,  or e to end: ");
 					if(debug_in()=='c') {
+						ADCSRA |= (1 << ADSC);		//start ADC
+					} else if(debug_in()=='i') {
+						OCR0A = OCR0A + 50;
 						ADCSRA |= (1 << ADSC);		//start ADC
 					} else {
 						break;
