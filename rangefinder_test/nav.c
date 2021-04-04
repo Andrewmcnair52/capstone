@@ -6,7 +6,7 @@ extern volatile bool is_moving;
 
 uint8_t adc[3] = { 0b01100001, 0b01100010, 0b01100011 };	//select which ADC, ADMUX = { adc[0] -> ADC3 || adc[1] -> ADC5 || adc[2] -> ADC7 }
 uint16_t nav_data[3];
-uint8_t temporary = 0;
+uint8_t tempLow = 0, tempHigh = 0;
 
 void start_move() {
 
@@ -117,11 +117,11 @@ ISR(ADC_vect) {
 		*/
 		
 		//	10b ADC
-		temporary = ADCL;			//save low byte, ADCL must be read first, this locks ADC output registers
-		nav_data[0] = (ADCH<<8);	//insert ADCH into MSB, reading ADCH unlocks ADC output registers
-		nav_data[0] |= temporary;	// (HHHHHHHH00000000 | LLLLLLLL ) = HHHHHHHHLLLLLLLL  
-		ADMUX = adc[1];				//change adc channel to second sensor
-		ADCSRA |= (1 << ADSC);		//start next adc
+		tempLow = ADCL;										//save low byte, ADCL must be read first, this locks ADC output registers
+		tempHigh = ADCH;									//read ADCH second, this unlocks ADC output registers
+		nav_data[0] = ( ((uint16_t)tempHigh) <<8 ) | (uint16_t)tempLow;	//insert ADCH into MSB, and ADCL in LSB
+		ADMUX = adc[1];										//change adc channel to second sensor
+		ADCSRA |= (1 << ADSC);								//start next adc
 		
 		
 		
@@ -135,11 +135,11 @@ ISR(ADC_vect) {
 		*/
 		
 		//	10b ADC
-		temporary = ADCL;			//save low byte, ADCL must be read first, this locks ADC output registers
-		nav_data[1] = (ADCH<<8);	//insert ADCH into MSB, reading ADCH unlocks ADC output registers
-		nav_data[1] |= temporary;	// (HHHHHHHH00000000 | LLLLLLLL ) = HHHHHHHHLLLLLLLL  
-		ADMUX = adc[2];				//change adc channel to third sensor
-		ADCSRA |= (1 << ADSC);		//start next adc
+		tempLow = ADCL;										//save low byte, ADCL must be read first, this locks ADC output registers
+		tempHigh = ADCH;									//read ADCH second, this unlocks ADC output registers
+		nav_data[1] = ( ((uint16_t)tempHigh) <<8 ) | (uint16_t)tempLow;	//insert ADCH into MSB, and ADCL in LSB
+		ADMUX = adc[2];										//change adc channel to second sensor
+		ADCSRA |= (1 << ADSC);								//start next adc
 		
 		
 	} else if(ADMUX==adc[2]) {		//if third sensor converted
@@ -152,10 +152,10 @@ ISR(ADC_vect) {
 		*/
 		
 		//	10b ADC
-		temporary = ADCL;			//save low byte, ADCL must be read first, this locks ADC output registers
-		nav_data[2] = (ADCH<<8);	//insert ADCH into MSB, reading ADCH unlocks ADC output registers
-		nav_data[2] |= temporary;	// (HHHHHHHH00000000 | LLLLLLLL ) = HHHHHHHHLLLLLLLL  
-		ADMUX = adc[0];				//change adc channel to first sensor
+		tempLow = ADCL;										//save low byte, ADCL must be read first, this locks ADC output registers
+		tempHigh = ADCH;									//read ADCH second, this unlocks ADC output registers
+		nav_data[2] = ( ((uint16_t)tempHigh) <<8 ) | (uint16_t)tempLow;	//insert ADCH into MSB, and ADCL in LSB
+		ADMUX = adc[0];										//change adc channel to second sensor
 		nav_data_ready = true;		//set flag for main
 		
 		
@@ -251,7 +251,7 @@ void setupADC() {
 	name       REFS1       REFS0      ADLAR       -       MUX3      MUX2       MUX1       MUX0
 	set to       0           1          1         0        0         0          1          1
 	
-	REFS1 = 0    use AVCC for reference voltage
+	REFS1 = 0    use 1.1V reference voltage
 	REFS0 = 1
 	
 	ADLAR = 0    don't left justify ADC result in ADCH/ADCL
