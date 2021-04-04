@@ -5,9 +5,7 @@ extern volatile bool nav_data_ready;
 extern volatile bool is_moving;
 
 uint8_t adc[3] = { 0b01000001, 0b01000010, 0b01000011 };	//select which ADC, ADMUX = { adc[0] -> ADC3 || adc[1] -> ADC5 || adc[2] -> ADC7 }
-uint8_t nav_data_low[3];
-uint8_t nav_data_high[3];
-uint8_t nav_data[3];
+uint16_t nav_data[3];
 uint8_t tempLow = 0, tempHigh = 0;
 
 void start_move() {
@@ -119,9 +117,9 @@ ISR(ADC_vect) {
 		*/
 		
 		//	10b ADC
-		nav_data_low[0] = ADCL;										//save low byte, ADCL must be read first, this locks ADC output registers
-		nav_data_high[0] = ADCH;									//read ADCH second, this unlocks ADC output registers
-		//nav_data[0] = ( ((uint16_t)tempHigh) <<8 ) | (uint16_t)tempLow;	//insert ADCH into MSB, and ADCL in LSB
+		tempLow = ADCL;										//save low byte, ADCL must be read first, this locks ADC output registers
+		tempHigh = ADCH;									//read ADCH second, this unlocks ADC output registers
+		nav_data[0] = ( ((uint16_t)tempHigh) <<8 ) | (uint16_t)tempLow;	//insert ADCH into MSB, and ADCL in LSB
 		ADMUX = adc[1];										//change adc channel to second sensor
 		ADCSRA |= (1 << ADSC);								//start next adc
 		
@@ -137,9 +135,9 @@ ISR(ADC_vect) {
 		*/
 		
 		//	10b ADC
-		nav_data_low[1] = ADCL;										//save low byte, ADCL must be read first, this locks ADC output registers
-		nav_data_high[1] = ADCH;									//read ADCH second, this unlocks ADC output registers
-		//nav_data[1] = ( ((uint16_t)tempHigh) <<8 ) | (uint16_t)tempLow;	//insert ADCH into MSB, and ADCL in LSB
+		tempLow = ADCL;										//save low byte, ADCL must be read first, this locks ADC output registers
+		tempHigh = ADCH;									//read ADCH second, this unlocks ADC output registers
+		nav_data[1] = ( ((uint16_t)tempHigh) <<8 ) | (uint16_t)tempLow;	//insert ADCH into MSB, and ADCL in LSB
 		ADMUX = adc[2];										//change adc channel to second sensor
 		ADCSRA |= (1 << ADSC);								//start next adc
 		
@@ -154,9 +152,9 @@ ISR(ADC_vect) {
 		*/
 		
 		//	10b ADC
-		nav_data_low[2] = ADCL;										//save low byte, ADCL must be read first, this locks ADC output registers
-		nav_data_high[2] = ADCH;									//read ADCH second, this unlocks ADC output registers
-		//nav_data[2] = ( ((uint16_t)tempHigh) <<8 ) | (uint16_t)tempLow;	//insert ADCH into MSB, and ADCL in LSB
+		tempLow = ADCL;										//save low byte, ADCL must be read first, this locks ADC output registers
+		tempHigh = ADCH;									//read ADCH second, this unlocks ADC output registers
+		nav_data[2] = ( ((uint16_t)tempHigh) <<8 ) | (uint16_t)tempLow;	//insert ADCH into MSB, and ADCL in LSB
 		ADMUX = adc[0];										//change adc channel to second sensor
 		nav_data_ready = true;		//set flag for main
 		
