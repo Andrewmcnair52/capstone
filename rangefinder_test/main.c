@@ -129,9 +129,10 @@ int main() {
 					//nav_rules();				//apply rules
 					nav_data_ready = false;		//reset flag
 					debug_str("\nenter c to read again, i to increase pwm,  or e to end: ");
-					if(debug_in()=='c') {
+					char input = debug_in();
+					if(input=='c') {
 						ADCSRA |= (1 << ADSC);		//start ADC
-					} else if(debug_in()=='i') {
+					} else if(input=='i') {
 						OCR0A = OCR0A + 50;
 						ADCSRA |= (1 << ADSC);		//start ADC
 					} else {
