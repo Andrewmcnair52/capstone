@@ -4,7 +4,7 @@
 extern volatile bool nav_data_ready;
 extern volatile bool is_moving;
 
-uint8_t adc[3] = { 0b01100001, 0b01100010, 0b01100011 };	//select which ADC, ADMUX = { adc[0] -> ADC3 || adc[1] -> ADC5 || adc[2] -> ADC7 }
+uint8_t adc[3] = { 0b01000001, 0b01000010, 0b01000011 };	//select which ADC, ADMUX = { adc[0] -> ADC3 || adc[1] -> ADC5 || adc[2] -> ADC7 }
 uint8_t nav_data_low[3];
 uint8_t nav_data_high[3];
 uint8_t nav_data[3];
@@ -251,7 +251,7 @@ void setupADC() {
 	
 	bit          7           6          5         4        3         2          1          0
 	name       REFS1       REFS0      ADLAR       -       MUX3      MUX2       MUX1       MUX0
-	set to       0           1          1         0        0         0          1          1
+	set to       0           1          0         0        0         0          1          1
 	
 	REFS1 = 0    use 1.1V reference voltage
 	REFS0 = 1
