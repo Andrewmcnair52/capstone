@@ -117,14 +117,14 @@ int main() {
 			while(1) {
 				if(nav_data_ready) {
 					debug_str("\ndata:: ");
-					debug_dec(nav_data[0]);
+					debug_hex(nav_data[0],4);
 					debug_str(" ");
-					debug_dec(nav_data[1]);
+					debug_hex(nav_data[1],4);
 					debug_str(" ");
-					debug_dec(nav_data[2]);
+					debug_hex(nav_data[2],4);
 					debug_str("\n");
 					debug_str("OCR0A: ");
-					debug_dec(OCR0A);
+					debug_hex(OCR0A,2);
 					debug_str("\n");
 					//nav_rules();				//apply rules
 					nav_data_ready = false;		//reset flag
