@@ -4,7 +4,7 @@
 extern volatile bool nav_data_ready;
 extern volatile bool is_moving;
 
-uint8_t adc[3] = { 0b01000001, 0b01000010, 0b01000011 };	//select which ADC, ADMUX = { adc[0] -> ADC3 || adc[1] -> ADC5 || adc[2] -> ADC7 }
+uint8_t adc[3] = { 0b11000001, 0b11000010, 0b11000011 };	//select which ADC, ADMUX = { adc[0] -> ADC3 || adc[1] -> ADC5 || adc[2] -> ADC7 }
 uint16_t nav_data[3];
 uint8_t tempLow = 0, tempHigh = 0;
 
@@ -263,7 +263,7 @@ void setupADC() {
 	MUX1 = 1
 	MUX0 = 1
 	*/
-	ADMUX = 0b01000011;			
+	ADMUX = 0b11000011;			
 	
 	/*
 	ADCSRA - ADC Control and Status Register A
