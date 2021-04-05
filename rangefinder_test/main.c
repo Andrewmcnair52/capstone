@@ -117,11 +117,18 @@ int main() {
 			while(1) {
 				if(nav_data_ready) {
 					debug_str("\nADCH: ");
-					debug_hex(nav_data[0],4);
+					debug_hex(nav_data_high[0],4);
 					debug_str(" ");
-					debug_hex(nav_data[1],4);
+					debug_hex(nav_data_high[1],4);
 					debug_str(" ");
-					debug_hex(nav_data[2],4);
+					debug_hex(nav_data_high[2],4);
+					debug_str("\n");
+					debug_str("\nADCL: ");
+					debug_hex(nav_data_low[0],4);
+					debug_str(" ");
+					debug_hex(nav_data_low[1],4);
+					debug_str(" ");
+					debug_hex(nav_data_low[2],4);
 					debug_str("\n");
 					//nav_rules();				//apply rules
 					nav_data_ready = false;		//reset flag
