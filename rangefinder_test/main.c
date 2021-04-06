@@ -75,15 +75,15 @@ int main() {
 			break;
 			
 			case 'r': //start moving right
-			forward();
-			OCR0A = 0x60;
-			OCR2B = 0xA0;
+			right();
+			OCR0A = 0xCC;
+			OCR2B = 0xCC;
 			break;
 			
 			case 'b': //start moving backwards
-			reverse();
-			OCR0A = 0x66;
-			OCR2B = 0x66;
+			lefte();
+			OCR0A = 0xCC;
+			OCR2B = 0xCC;
 			break;
 			
 			case 'e':
@@ -102,7 +102,7 @@ int main() {
 			OCR0A = 0x60;
 			OCR2B = 0x60;
 			distance = read_rangefinder();
-			while( distance > 30 ) {
+			while( distance > 200 ) {
 				distance = read_rangefinder();
 				// debug output
 				debug_dec(counter);
