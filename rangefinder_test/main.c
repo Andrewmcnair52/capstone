@@ -7,6 +7,7 @@
 #include "VL53L0X.h"
 #include "nav.h"
 #include "adt7420.h"
+#include "max32664.h"
 
 void timerSetup();
 
@@ -55,6 +56,7 @@ int main() {
 		debug_str("s: print all addresses on I2C bus\n");
 		debug_str("m: start moving\n");
 		debug_str("c: controller mode\n");
+        debug_str("b: bpm test\n");
 		debug_str("\n> ");
 
 		//temporary test switch case, controls robot one iteration at a time
@@ -190,7 +192,19 @@ int main() {
 				debug_str("\n");
 			}
 			break;
-
+            
+            case 'b':        //bpm test
+                uint_8 beginInt = max32664_begin(PB0,PC6);
+                if(!beginInt){
+                    unit_8 configInt = max32664_configBpm(MODE_ONE);
+                    if(configInt){
+                        debug_str("config ERROR\n");
+                    }
+                }else{
+                    debug_str("start ERROR\n");
+                }
+                
+            break;
 			default:
 			break;
 
