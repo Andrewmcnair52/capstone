@@ -316,3 +316,4 @@ uint8_t max32664_configBpm(uint8_t mode);
 uint8_t max32664_readBpm()
 
 
+#endif
