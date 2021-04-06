@@ -30,5 +30,5 @@ void setupADC();			//setup ADC for reflectance sensors
 void start_move();			//start line follower
 void stop_move();			//stop line follower
 void nav_rules();			//interprets data
-uint8_t read_rangefinder();	//read obstacle avoidance data from range finders
+uint16_t read_rangefinder();	//read obstacle avoidance data from range finders
 #endif /* NAV_H_ */

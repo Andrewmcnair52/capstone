@@ -101,13 +101,15 @@ int main() {
 			counter = 0;
 			OCR0A = 0x60;
 			OCR2B = 0x60;
-			distance = raw_to_cm( read_rangefinder() );
+			distance = read_rangefinder();
 			while( distance > 30 ) {
-				distance = raw_to_cm( read_rangefinder() );
+				distance = read_rangefinder();
 				// debug output
 				debug_dec(counter);
 				debug_str(": distance = ");
 				debug_dec(distance);
+				debug_str("  ");
+				debug_hex(distance,4);
 				debug_str("\n");
 				counter++;
 			}
@@ -126,8 +128,11 @@ int main() {
 						rangefinder_initialized = true;
 					}
 					while(debug_in()!='e') {
+						distance = read_rangefinder();
 						debug_str("\nrange data:");
-						debug_dec( read_rangefinder() );
+						debug_dec(distance);
+						debug_str("  ");
+						debug_hex(distance,4);
 						debug_str("\n");
 						debug_str("input any char to read again, or e to end");
 						debug_str("\n");
