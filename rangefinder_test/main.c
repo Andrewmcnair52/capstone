@@ -81,7 +81,7 @@ int main() {
 			break;
 			
 			case 'b': //start moving backwards
-			lefte();
+			left();
 			OCR0A = 0xCC;
 			OCR2B = 0xCC;
 			break;
