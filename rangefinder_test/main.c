@@ -71,12 +71,12 @@ int main() {
 			case 'l': //start moving left
 			left();
 			OCR0A = 0xA0;
-			OCR2B = 0xA0;
+			OCR2B = 0x00;
 			break;
 			
 			case 'r': //start moving right
 			right();
-			OCR0A = 0xA0;
+			OCR0A = 0x00;
 			OCR2B = 0xA0;
 			break;
 			
