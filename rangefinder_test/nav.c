@@ -206,21 +206,10 @@ void nav_rules() {
 
 uint8_t read_rangefinder() {
 
-	statInfo_t xTraStats;
-
-	readRangeSingleMillimeters( &xTraStats );	// blocks until measurement is finished
-	/* Returns:
-	xTraStats.rangeStatus
-	xTraStats.ambientCnt
-	xTraStats.signalCnt
-	xTraStats.spadCnt
-	xTraStats.rawDistance
-	*/
-	if ( timeoutOccurred() ) {
-		debug_str(" !!! Timeout !!! \n");
-	}
-
-	return xTraStats.rawDistance;
+	statInfo_t xTraStats = 0;
+	uint16_t distance = readRangeSingleMillimeters( &xTraStats );	// blocks until measurement is finished
+	if ( timeoutOccurred() )  debug_str("rangefinder read timeout\n");
+	return distance;
 
 }
 
@@ -307,7 +296,6 @@ void setupADC() {
 void timerSetup() {
 
 	//everything forward
-	
 	DDRC |= (1<<PC0);	//setup PC0 for output
 	PORTC &= ~(1<<PC0);	//set PC0 high
 	DDRD |= (1<<PD2);	//set PD2 for output

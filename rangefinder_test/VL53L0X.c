@@ -803,7 +803,7 @@ uint16_t readRangeContinuousMillimeters( statInfo_t *extraStats ) {
 		// assumptions: Linearity Corrective Gain is 1000 (default);
 		// fractional ranging is not enabled
 		temp = readReg16Bit(RESULT_RANGE_STATUS + 10);
-		} else {
+	} else {
 		// Register map starting at 0x14
 		//     0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F
 		//    5A 06 BC 04 00 85 00 38 00 19 06 B6 00 00 00 00

@@ -24,7 +24,6 @@ void init(void) {
 	//setup for motor drivers
 	timerSetup();		//starts PWM on PD6(timer0) and PD3(timer2)
 	
-	
 	debugInit();		//setup bluetooth usart
 	
 	//I2C setup
