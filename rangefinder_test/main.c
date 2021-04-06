@@ -63,32 +63,45 @@ int main() {
 		switch(debug_in()) {
 			
 			case 's':	//start move forward
+			OCR0A = 0x0;
+			OCR2B = 0x0;
 			forward();
-			OCR0A = 0x66;
-			OCR2B = 0x66;
+			_delay_ms(100);
+			OCR0A = 0x76;
+			OCR2B = 0x76;
 			break;
 			
 			case 'l': //start moving left
+			OCR0A = 0x0;
+			OCR2B = 0x0;
 			left();
+			_delay_ms(100);
 			OCR0A = 0xAA;
 			OCR2B = 0xEE;
 			break;
 			
 			case 'r': //start moving right
+			OCR0A = 0x0;
+			OCR2B = 0x0;
 			right();
+			_delay_ms(100);
 			OCR0A = 0xEE;
 			OCR2B = 0xAA;
 			break;
 			
 			case 'b': //start moving backwards
+			OCR0A = 0x0;
+			OCR2B = 0x0;
 			reverse();
-			OCR0A = 0x66;
-			OCR2B = 0x66;
+			_delay_ms(100);
+			OCR0A = 0x76;
+			OCR2B = 0x76;
 			break;
 			
 			case 'e':
 			OCR0A = 0x0;
 			OCR2B = 0x0;
+			forward();
 			break;
 			
 			case 'p':	//obstacle detection loop
