@@ -41,9 +41,6 @@ void init(void) {
 int main() {
 
 	init();
-	
-	//wait to receive char indicating app is ready to print data
-	debug_in();
 
 	// Main loop
 	while(1){
@@ -155,7 +152,7 @@ int main() {
 					start_move();	//starts adc reading on loop
 					while(1) {
 						if(nav_data_ready) {
-							debug_str("\ndata:: ");
+							debug_str("\ndata: ");
 							debug_hex(nav_data[0],4);
 							debug_str(" ");
 							debug_hex(nav_data[1],4);
