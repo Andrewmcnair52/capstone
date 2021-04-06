@@ -13,7 +13,7 @@ void timerSetup();
 //global vars for main
 bool rangefinder_initialized = false;
 int counter = 0;
-uint8_t distance = 0;
+uint16_t distance = 0;
 
 //ISR shared variables
 volatile bool nav_data_ready = false;
