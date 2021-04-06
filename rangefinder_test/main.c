@@ -69,19 +69,19 @@ int main() {
 			break;
 			
 			case 'l': //start moving left
-			forward();
-			OCR0A = 0xA0;
-			OCR2B = 0x60;
+			left();
+			OCR0A = 0xAA;
+			OCR2B = 0xEE;
 			break;
 			
 			case 'r': //start moving right
 			right();
-			OCR0A = 0xCC;
-			OCR2B = 0xCC;
+			OCR0A = 0xEE;
+			OCR2B = 0xAA;
 			break;
 			
 			case 'b': //start moving backwards
-			left();
+			reverse();
 			OCR0A = 0xCC;
 			OCR2B = 0xCC;
 			break;
