@@ -194,9 +194,9 @@ int main() {
 			break;
             
             case 'b':        //bpm test
-                uint_8 beginInt = max32664_begin(PB0,PC6);
+                uint8_t beginInt = max32664_begin(PB0,PC6);
                 if(!beginInt){
-                    unit_8 configInt = max32664_configBpm(MODE_ONE);
+                    unit8_t configInt = max32664_configBpm(MODE_ONE);
                     if(configInt){
                         debug_str("config ERROR\n");
                     }
