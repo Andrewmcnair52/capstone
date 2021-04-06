@@ -43,7 +43,8 @@ C_SRCS +=  \
 ../main.c \
 ../millis.c \
 ../nav.c \
-../VL53L0X.c
+../VL53L0X.c\
+../max32664.c
 
 
 PREPROCESSING_SRCS += 
@@ -59,7 +60,8 @@ i2cmaster.o \
 main.o \
 millis.o \
 nav.o \
-VL53L0X.o
+VL53L0X.o\
+max32664.o
 
 OBJS_AS_ARGS +=  \
 adt7420.o \
@@ -68,7 +70,8 @@ i2cmaster.o \
 main.o \
 millis.o \
 nav.o \
-VL53L0X.o
+VL53L0X.o\
+max32664.o
 
 C_DEPS +=  \
 adt7420.d \
@@ -77,7 +80,8 @@ i2cmaster.d \
 main.d \
 millis.d \
 nav.d \
-VL53L0X.d
+VL53L0X.d\
+max32664.d
 
 C_DEPS_AS_ARGS +=  \
 adt7420.d \
@@ -86,7 +90,8 @@ i2cmaster.d \
 main.d \
 millis.d \
 nav.d \
-VL53L0X.d
+VL53L0X.d\
+max32664.d
 
 OUTPUT_FILE_PATH +=Dogtor-328p.elf
 
@@ -145,6 +150,13 @@ LINKER_SCRIPT_DEP+=
 	
 
 ./VL53L0X.o: .././VL53L0X.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)D:\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=8000000UL  -I"D:\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "D:\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./max32664.o: .././max32664.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)D:\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=8000000UL  -I"D:\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "D:\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
