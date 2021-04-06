@@ -206,11 +206,25 @@ void nav_rules() {
 
 uint8_t read_rangefinder() {
 
-	statInfo_t xTraStats = 0;
-	uint16_t distance = readRangeSingleMillimeters( &xTraStats );	// blocks until measurement is finished
+	//================================================================================================
+
+	//new code
+	uint16_t distance = readRangeSingleMillimeters( 0 );	// blocks until measurement is finished
 	if ( timeoutOccurred() )  debug_str("rangefinder read timeout\n");
 	return distance;
 
+	//================================================================================================
+
+	/* old code
+	statInfo_t xTraStats;
+	uint16_t distance = readRangeSingleMillimeters( &xTraStats );	// blocks until measurement is finished
+	if ( timeoutOccurred() ) {
+		debug_str(" !!! Timeout !!! \n");
+	}
+	return xTraStats.rawDistance;
+	*/
+	
+	//================================================================================================
 }
 
 uint8_t raw_to_cm(uint8_t raw) {

@@ -91,7 +91,7 @@ int main() {
 			OCR2B = 0x0;
 			break;
 			
-			case 'p':	//test loop
+			case 'p':	//obstacle detection loop
 			if(!rangefinder_initialized) {		//initialize rangefinder if not already done
 				initVL53L0X(1);
 				setMeasurementTimingBudget( 500 * 1000UL );	//500 ms per measurement
@@ -104,13 +104,12 @@ int main() {
 			distance = raw_to_cm( read_rangefinder() );
 			while( distance > 30 ) {
 				distance = raw_to_cm( read_rangefinder() );
-				/* debug output
+				// debug output
 				debug_dec(counter);
 				debug_str(": distance = ");
 				debug_dec(distance);
 				debug_str("\n");
 				counter++;
-				*/
 			}
 			OCR0A = 0x00;
 			OCR2B = 0x00;
@@ -119,16 +118,20 @@ int main() {
 			case 't':		//tests
 			
 				switch(debug_in()) {
-					
+				
 					case 'r':	//rangefinder test
 					if(!rangefinder_initialized) {		//initialize rangefinder if not already done
 						initVL53L0X(1);
 						setMeasurementTimingBudget( 500 * 1000UL );	//500 ms per measurement
 						rangefinder_initialized = true;
 					}
-					debug_str("range data:");
-					debug_dec( read_rangefinder() );
-					debug_str("\n");
+					while(debug_in()!='e') {
+						debug_str("\nrange data:");
+						debug_dec( read_rangefinder() );
+						debug_str("\n");
+						debug_str("input any char to read again, or e to end");
+						debug_str("\n");
+					}
 					break;
 				
 					case 't':	//temperature test
