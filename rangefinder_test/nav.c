@@ -47,54 +47,38 @@ void decrement_OCR2B(uint8_t inc) {
 
 void forward() {	//forward motion set both forward
 	//left forward
-	DDRB |= (1<<PB2);	//setup PB2 for output
 	PORTB &= ~(1<<PB2);	//set PB2 low
-	DDRD |= (1<<PD4);	//set PD4 for output
 	PORTD |= (1<<PD4);	//set PD4 high
 	//right forward
-	DDRC |= (1<<PC0);	//setup PC0 for output
-	PORTC &= ~(1<<PC0);	//set PC0 high
-	DDRD |= (1<<PD2);	//set PD2 for output
+	PORTC &= ~(1<<PC0);	//set PC0 low
 	PORTD |= (1<<PD2);	//set PD2 high
 }
 
 void reverse() {	//backwards, both reverse
 	//left reverse
-	DDRB |= (1<<PB2);	//setup PB2 for output
-	PORTB |= (1<<PB2);	//set PB2 low
-	DDRD |= (1<<PD4);	//set PD4 for output
-	PORTD &= ~(1<<PD4);	//set PD4 high
+	PORTB |= (1<<PB2);	//set PB2 high
+	PORTD &= ~(1<<PD4);	//set PD4 low
 	//right reverse
-	DDRC |= (1<<PC0);	//setup PC0 for output
 	PORTC |= (1<<PC0);	//set PC0 high
-	DDRD |= (1<<PD2);	//set PD2 for output
-	PORTD &= ~(1<<PD2);	//set PD2 high
+	PORTD &= ~(1<<PD2);	//set PD2 low
 }
 
 void left() {	//turn left, left side reverse
 	//left reverse
-	DDRB |= (1<<PB2);	//setup PB2 for output
-	PORTB |= (1<<PB2);	//set PB2 low
-	DDRD |= (1<<PD4);	//set PD4 for output
-	PORTD &= ~(1<<PD4);	//set PD4 high
+	PORTB |= (1<<PB2);	//set PB2 high
+	PORTD &= ~(1<<PD4);	//set PD4 low
 	//right forward
-	DDRC |= (1<<PC0);	//setup PC0 for output
-	PORTC &= ~(1<<PC0);	//set PC0 high
-	DDRD |= (1<<PD2);	//set PD2 for output
+	PORTC &= ~(1<<PC0);	//set PC0 low
 	PORTD |= (1<<PD2);	//set PD2 high
 }
 
 void right() {	//turn right, right side reverse
 	//left forward
-	DDRB |= (1<<PB2);	//setup PB2 for output
 	PORTB &= ~(1<<PB2);	//set PB2 low
-	DDRD |= (1<<PD4);	//set PD4 for output
 	PORTD |= (1<<PD4);	//set PD4 high
 	//right reverse
-	DDRC |= (1<<PC0);	//setup PC0 for output
 	PORTC |= (1<<PC0);	//set PC0 high
-	DDRD |= (1<<PD2);	//set PD2 for output
-	PORTD &= ~(1<<PD2);	//set PD2 high
+	PORTD &= ~(1<<PD2);	//set PD2 low
 }
 
 //=========================================================== reflectance sensor ISR

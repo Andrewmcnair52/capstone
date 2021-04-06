@@ -66,7 +66,7 @@ int main() {
 			OCR0A = 0x0;
 			OCR2B = 0x0;
 			forward();
-			_delay_ms(100);
+			_delay_ms(200);
 			OCR0A = 0x76;
 			OCR2B = 0x76;
 			break;
@@ -75,25 +75,25 @@ int main() {
 			OCR0A = 0x0;
 			OCR2B = 0x0;
 			left();
-			_delay_ms(100);
-			OCR0A = 0xA0;
-			OCR2B = 0xA0;
+			_delay_ms(200);
+			OCR0A = 0xAA;
+			OCR2B = 0xEE;
 			break;
 			
 			case 'r': //start moving right
 			OCR0A = 0x0;
 			OCR2B = 0x0;
 			right();
-			_delay_ms(100);
-			OCR0A = 0xA0;
-			OCR2B = 0xA0;
+			_delay_ms(200);
+			OCR0A = 0xEE;
+			OCR2B = 0xAA;
 			break;
 			
 			case 'b': //start moving backwards
 			OCR0A = 0x0;
 			OCR2B = 0x0;
 			reverse();
-			_delay_ms(100);
+			_delay_ms(200);
 			OCR0A = 0x76;
 			OCR2B = 0x76;
 			break;
