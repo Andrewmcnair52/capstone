@@ -184,7 +184,7 @@
     <Compile Include="max32664.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Vmax32664.h">
+    <Compile Include="max32664.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
