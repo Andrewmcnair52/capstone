@@ -93,13 +93,6 @@ ISR(ADC_vect) {
 		
 	} else if(ADMUX==adc[0]) {		//if first sensor converted
 		
-		/*
-		//8b ADC
-		nav_data[0] = ADCH;			//copy data
-		ADMUX = adc[1];				//change adc channel to second sensor
-		ADCSRA |= (1 << ADSC);		//start next adc
-		*/
-		
 		//	10b ADC
 		tempLow = ADCL;										//save low byte, ADCL must be read first, this locks ADC output registers
 		tempHigh = ADCH;									//read ADCH second, this unlocks ADC output registers
@@ -111,13 +104,6 @@ ISR(ADC_vect) {
 		
 	} else if(ADMUX==adc[1]) {		//if second sensor converted
 		
-		/*
-		//8b ADC
-		nav_data[1] = ADCH;			//copy data
-		ADMUX = adc[2];				//change adc channel to third sensor
-		ADCSRA |= (1 << ADSC);		//start next adc
-		*/
-		
 		//	10b ADC
 		tempLow = ADCL;										//save low byte, ADCL must be read first, this locks ADC output registers
 		tempHigh = ADCH;									//read ADCH second, this unlocks ADC output registers
@@ -127,13 +113,6 @@ ISR(ADC_vect) {
 		
 		
 	} else if(ADMUX==adc[2]) {		//if third sensor converted
-		
-		/*
-		//8b ADC
-		nav_data[2] = ADCH;			//store data
-		ADMUX = adc[0];				//change adc channel to first sensor
-		nav_data_ready = true;		//set flag for main
-		*/
 		
 		//	10b ADC
 		tempLow = ADCL;										//save low byte, ADCL must be read first, this locks ADC output registers
@@ -150,8 +129,7 @@ ISR(ADC_vect) {
 //=========================================================== NAV algorithm
 
 void nav_rules() {
-
-	//assuming ADC3=left, ADC5=middle, ADC7=right
+	
 	//this will be a basic algorithm, to be modified or replaced entirely once we can test it
 	
 	uint8_t lightLineThreshold = 1;		//to be determined by sensor output
@@ -165,7 +143,7 @@ void nav_rules() {
 	//		|    | X | X  |X	veered right				dark,light,neither
 	//		|    |X  |X  X|		veered right				dark,light,light
 	//		|   X|  X|  X |		veered right but can tell
-	//		|  X | X | X  |		centered					light,dark,dark
+	//		|  X | X | X  |		centered					light,dark,light
 	//		| X  |X  |X   |		veered left but cant tell
 	//		|X  X|  X|    |		veered left					light,light,dark
 	//	   X|  X | X |    |		veered left					neither,light, dark
@@ -190,30 +168,10 @@ void nav_rules() {
 
 uint16_t read_rangefinder() {
 
-	//================================================================================================
-
 	//new code
 	uint16_t distance = readRangeSingleMillimeters( 0 );	// blocks until measurement is finished
 	if ( timeoutOccurred() )  debug_str("rangefinder read timeout\n");
 	return distance;
-
-	//================================================================================================
-
-	/* old code
-	statInfo_t xTraStats;
-	uint16_t distance = readRangeSingleMillimeters( &xTraStats );	// blocks until measurement is finished
-	if ( timeoutOccurred() ) {
-		debug_str(" !!! Timeout !!! \n");
-	}
-	return xTraStats.rawDistance;
-	*/
-	
-	//================================================================================================
-}
-
-uint8_t raw_to_cm(uint8_t raw) {
-	uint8_t val = (raw/10.225) + 24.4;
-	return val;
 }
 
 //=========================================================== setup functions

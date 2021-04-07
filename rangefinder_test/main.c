@@ -117,7 +117,7 @@ int main() {
 			distance = read_rangefinder();
 			while( distance > 200 ) {
 				distance = read_rangefinder();
-				// debug output
+				/* debug output
 				debug_dec(counter);
 				debug_str(": distance = ");
 				debug_dec(distance);
@@ -125,6 +125,7 @@ int main() {
 				debug_hex(distance,4);
 				debug_str("\n");
 				counter++;
+				*/
 			}
 			OCR0A = 0x00;
 			OCR2B = 0x00;

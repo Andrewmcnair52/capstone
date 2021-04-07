@@ -17,17 +17,6 @@ void debug_putc( uint8_t c ) {
 	UDR0 = c;
 }
 
-uint8_t hex2Nibble( uint8_t c ){
-	if(  c>='a' && c<='f' ){
-		return( c - 'a' + 10 );
-	}
-	if(  c>='0' && c<='9' ){
-		return( c - '0' );
-	}
-	return 0xFF;
-}
-
-// Print string from flash
 void debug_str_internal( const char *p ){
 	uint8_t c;
 	while (( c=pgm_read_byte( p++ ) )){
@@ -50,41 +39,16 @@ void debug_dec( uint32_t val ){
 	}
 }
 
-void debug_dec_fix( uint32_t val, const uint8_t nFract ){
-	uint32_t fractMask = ((1<<nFract)-1);   //For masking the fractional part
-	debug_dec( val>>nFract );               //Print the integer part
-	debug_putc('.');
-	val &= fractMask;                       //Convert to fractional part
-	while( val > 0 ) {
-		val *= 10;
-		debug_putc( '0' + (val>>nFract) );  //Print digit
-		val &= fractMask;                   //Convert to fractional part
-	}
-}
-
 void debug_hex( uint32_t val, uint8_t digits ){
 	for (int i = (4*digits)-4; i >= 0; i -= 4)
 	debug_putc( "0123456789ABCDEF"[(val >> i) % 16] );
 }
 
-// Print a pretty hex-dump on the debug out
-void hexDump( uint8_t *buffer, uint16_t nBytes ){
-	for( uint16_t i=0; i<nBytes; i++ ){
-		if( (nBytes>16) && ((i%16)==0) ){
-			debug_str("\n    ");
-			debug_hex(i, 4);
-			debug_str(": ");
-		}
-		debug_hex(*buffer++, 2);
-		debug_str(" ");
-	}
-}
 
+char debug_in() {	//receive data function
 
-char debug_in()									/* Data receiving function */
-{
-	while (!(UCSR0A & (1 << RXC0)));					/* Wait until new data receive */
-	return(UDR0);									/* Get and return received data */
+	while (!(UCSR0A & (1 << RXC0)));	//wait until data is received
+	return(UDR0);						//return data
 }
 
 

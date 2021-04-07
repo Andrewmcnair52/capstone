@@ -1,8 +1,6 @@
 #ifndef DEBUGPRINT_H
 #define DEBUGPRINT_H
 
-// Leightweight library for printing debugging info to the UART
-
 #include <avr/pgmspace.h>
 
 // All the DEBUG() prints can be disabled with this switch
@@ -19,7 +17,6 @@ void debug_dec_fix( uint32_t val, const uint8_t nFract );
 void debug_putc( uint8_t c );					// output the single character `c`
 
 #define debug_str(s) debug_str_internal(PSTR(s))// output string `s`, which will be stored in program memory
-void hexDump(uint8_t *buffer, uint16_t nBytes);	// output a pretty hex-dump of `buffer`
 char debug_in();
 #else
 #define debug_hex(val,digits)
