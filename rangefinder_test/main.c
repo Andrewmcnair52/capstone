@@ -7,6 +7,7 @@
 #include "VL53L0X.h"
 #include "nav.h"
 #include "adt7420.h"
+#include "max32664.h"
 
 void timerSetup();
 
@@ -14,6 +15,8 @@ void timerSetup();
 bool rangefinder_initialized = false;
 int counter = 0;
 uint16_t distance = 0;
+bool bpsensor_ready=false;
+uint8_t beginInt =0;
 
 //ISR shared variables
 volatile bool nav_data_ready = false;
@@ -57,6 +60,7 @@ int main() {
 		tt: temperature test, read device id
 		ts: TWI bus scan, print all addresses on bus
 		ta: adc test, output converted readings from IR sensors
+		th: heart pulse test
 		*/
 		
 		//temporary test switch case, controls robot one iteration at a time
@@ -197,6 +201,20 @@ int main() {
 						}
 					}
 					stop_move();
+					break;
+					
+					case 'h':	//bpm test
+					beginInt = max32664_begin(PB0,PC6);
+					if(!beginInt){
+					uint8_t configInt = max32664_configBpm(MODE_ONE);
+					if(configInt){
+					debug_str("config ERROR\n");
+					}
+					}else{
+					debug_str("start ERROR\n");
+	   }
+
+
 					break;
 					
 					default:

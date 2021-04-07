@@ -163,6 +163,12 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="max32664.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="max32664.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="millis.c">
       <SubType>compile</SubType>
     </Compile>
