@@ -244,8 +244,9 @@ uint8_t readByte(uint8_t _familyByte, uint8_t _indexByte )
 	i2c_start(_address | I2C_WRITE );
 	i2c_write(_familyByte);
 	i2c_write(_indexByte);
+	i2c_stop();
 	_delay_ms(CMD_DELAY);
-	i2c_rep_start( _address | I2C_READ );
+	i2c_start( _address | I2C_READ );
 	statusByte = i2c_readAck();
 
 	if( statusByte ){// SUCCESS (0x00)

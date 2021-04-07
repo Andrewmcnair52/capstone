@@ -31,7 +31,7 @@ static uint32_t timeoutMclksToMicroseconds(uint16_t timeout_period_mclks, uint8_
 static uint32_t timeoutMicrosecondsToMclks(uint32_t timeout_period_us, uint8_t vcsel_period_pclks);
 
 //---------------------------------------------------------
-// I2C communication Functions
+// I2C communication FunctionswriteReg
 //---------------------------------------------------------
 // Write an 8-bit register
 void writeReg(uint8_t reg, uint8_t value) {

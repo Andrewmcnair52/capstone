@@ -190,7 +190,7 @@ void stopContinuous(void);
 
 // Returns a range reading in millimeters when continuous mode is active.
 // Additional measurement data will be copied into `extraStats` if it is non-zero.
-uint16_t readRangeContinuousMillimeters( statInfo_t *extraStats );
+uint16_t ContinuousMillimeters( statInfo_t *extraStats );
 
 // Performs a single-shot ranging measurement and returns the reading in millimeters.
 // Additional measurement data will be copied into `extraStats` if it is non-zero.

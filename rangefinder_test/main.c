@@ -16,7 +16,7 @@ bool rangefinder_initialized = false;
 int counter = 0;
 uint16_t distance = 0;
 bool bpsensor_ready=false;
-uint8_t beginInt =0;
+uint8_t beginInt =1;
 
 //ISR shared variables
 volatile bool nav_data_ready = false;
@@ -204,15 +204,10 @@ int main() {
 					break;
 					
 					case 'h':	//bpm test
-					beginInt = max32664_begin(PB0,PC6);
-					if(!beginInt){
-					uint8_t configInt = max32664_configBpm(MODE_ONE);
-					if(configInt){
-					debug_str("config ERROR\n");
-					}
-					}else{
-					debug_str("start ERROR\n");
-	   }
+					debug_str("\nstarting pulse test\n");
+					max32664_begin(PC6,PB0);
+					debug_str("\n test done\n");
+
 
 
 					break;
