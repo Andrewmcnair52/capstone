@@ -111,11 +111,9 @@ int main() {
 				rangefinder_initialized = true;
 			}
 			counter = 0;
-			/*
 			forward();
-			OCR0A = 0x60;
-			OCR2B = 0x60;
-			*/
+			//OCR0A = 0x60;
+			//OCR2B = 0x60;
 			distance = read_rangefinder();
 			while( distance > 200 ) {
 				distance = read_rangefinder();
