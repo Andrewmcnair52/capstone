@@ -67,8 +67,8 @@ int main() {
 			OCR2B = 0x0;
 			forward();
 			_delay_ms(200);
-			OCR0A = 0x76;
-			OCR2B = 0x76;
+			OCR0A = 0x80;
+			OCR2B = 0x80;
 			break;
 			
 			case 'l': //start moving left
@@ -115,7 +115,7 @@ int main() {
 			OCR0A = 0x60;
 			OCR2B = 0x60;
 			distance = read_rangefinder();
-			while( distance > 200 ) {
+			while( distance > 250 ) {
 				distance = read_rangefinder();
 				// debug output
 				debug_dec(counter);
@@ -140,7 +140,7 @@ int main() {
 						setMeasurementTimingBudget( 500 * 1000UL );	//500 ms per measurement
 						rangefinder_initialized = true;
 					}
-					while(debug_in()!='e') {
+					do {
 						distance = read_rangefinder();
 						debug_str("\nrange data:");
 						debug_dec(distance);
@@ -149,7 +149,7 @@ int main() {
 						debug_str("\n");
 						debug_str("input any char to read again, or e to end");
 						debug_str("\n");
-					}
+					} while(debug_in()!='e');
 					break;
 				
 					case 't':	//temperature test
@@ -164,7 +164,7 @@ int main() {
 					else debug_str("correct ID received");
 					break;
 					
-					case 's':	//scan I2C bus
+					case 's':	//scan I2C bus=
 					searchI2C();
 					break;
 					

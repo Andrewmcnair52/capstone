@@ -9,7 +9,7 @@
 #include <avr/io.h>
 
 // I2C clock in Hz
-#define SCL_CLOCK  400000L
+#define SCL_CLOCK  400000L		//kHz
 
 /** defines the data direction (reading from I2C device) in i2c_start(),i2c_rep_start() */
 #define I2C_READ    1
