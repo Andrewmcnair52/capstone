@@ -18,7 +18,7 @@ uint8_t bpmSenArr[MAXFAST_ARRAY_SIZE + MAX30101_LED_ARRAY];
 uint8_t bpmSenArrTwo[MAXFAST_ARRAY_SIZE + MAXFAST_EXTENDED_DATA + MAX30101_LED_ARRAY] ;
 uint8_t _resetPin;
 uint8_t _mfioPin;
-uint8_t _address=0x55;
+uint8_t _address=0xAA;
 uint32_t _writeCoefArr[3];
 uint8_t _userSelectedMode;
 uint8_t _sampleRate = 100;
@@ -60,12 +60,12 @@ uint8_t max32664_begin(uint16_t resetPin, uint16_t mfioPin) {
 	// Set these pins as output
 
 
-	PORTC |= (1<<_mfioPin);//digitalWrite(_mfioPin, HIGH);
+	PORTB |= (1<<_mfioPin);//digitalWrite(_mfioPin, HIGH);
 	PORTC &= ~(1<<_resetPin);//digitalWrite(_resetPin, LOW);
 	_delay_ms(10);
 	PORTC |= (1<<_resetPin);//digitalWrite(_resetPin, HIGH);
 	_delay_ms(1000);
-	PORTC |= (1<<_mfioPin);//pinMode(_mfioPin, INPUT_PULLUP); // To be used as an interrupt later
+	PORTB |= (1<<_mfioPin);//pinMode(_mfioPin, INPUT_PULLUP); // To be used as an interrupt later
 
 	uint8_t responseByte = readByte(READ_DEVICE_MODE, 0x00); // 0x00 only possible Index Byte.
 	return responseByte;
@@ -250,9 +250,11 @@ uint8_t readByte(uint8_t _familyByte, uint8_t _indexByte )
 	statusByte = i2c_readAck();
 
 	if( statusByte ){// SUCCESS (0x00)
+		i2c_stop();
 	return statusByte;} // Return the error, see: READ_STATUS_BYTE_VALUE
 
 	returnByte = i2c_readNak();
+	i2c_stop();
 	return returnByte; // If good then return the actual byte.
 
 }
