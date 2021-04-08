@@ -55,7 +55,7 @@ uint8_t max32664_begin(uint16_t resetPin, uint16_t mfioPin) {
 	
 	_resetPin = resetPin;
 	_mfioPin = mfioPin;
-	DDRC |= (1<<_mfioPin);
+	DDRB |= (1<<_mfioPin);
 	DDRC |= (1<<_resetPin);
 	// Set these pins as output
 
