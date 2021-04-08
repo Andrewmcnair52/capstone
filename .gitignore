@@ -1,5 +1,6 @@
 rangefinder_test/Debug/*
 !rangefinder_test/Debug/Makefile
+.vs/Dogtor-238p/v14/.atsuo
 
 # Prerequisites
 *.d
